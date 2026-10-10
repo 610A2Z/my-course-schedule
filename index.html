@@ -78,7 +78,7 @@
       <div class="nav"><button id="prev" aria-label="上一段">←</button><span id="label"></span><button id="next" aria-label="下一段">→</button><button id="today">回到今天</button></div>
     </section>
     <section id="calendar" class="panel"></section>
-    <p class="footer-note">数据依据《2026-2027秋研究生课程表》整理。PDF 仅按教学周列课，网页默认 2026-09-07 为第 1 教学周周一；可用日期选择器与实际校历对齐。课程块显示课程、教室、教师及生效教学周。</p>
+    <p class="footer-note">数据依据《2026-2027秋研究生课程表》整理。PDF 仅按教学周列课，网页按 2026-08-31 为第 1 教学周周一；已录入医学统计学调课及医学伦理学补课、作业与考试安排。课程块显示课程、教室、教师及生效教学周。</p>
   </main>
   <script>
     const semesterStart = new Date(2026, 7, 31); // 第 1 教学周周一（2026-08-31）
@@ -89,13 +89,18 @@
     ];
     const courses = [
       { title:'医学论著写作', day:1, period:'1-2', weeks:[1,2,3,4,5,7,8,9], room:'二教 303', teacher:'高永平、何冲', color:'#e87070' },
-      { title:'医学统计学', day:5, period:'1-2', weeks:[1,2,3,4,5,6,7,8], room:'二教 303', teacher:'廖利梅', color:'#7564cf' },
+      { title:'医学统计学', day:5, period:'1-2', weeks:[1,2,3,5,6,7,8], room:'二教 303', teacher:'廖利梅', color:'#7564cf' },
       { title:'硕士研究生英语', day:4, period:'3-4', weeks:[1,2,3,4,5,6,7], room:'二教 312', teacher:'李京南', color:'#5d91da' },
-      { title:'医学统计学', day:5, period:'3-4', weeks:[1,2,3,4,5,6,7,8], room:'二教 303', teacher:'廖利梅', color:'#7564cf' },
+      { title:'医学统计学', day:5, period:'3-4', weeks:[1,2,3,5,6,7,8], room:'二教 303', teacher:'廖利梅', color:'#7564cf' },
+      { title:'医学统计学（调课）', day:1, period:'3-4', weeks:[7], room:'二教 305', teacher:'廖利梅', color:'#7564cf', note:'原第4周周五第1-4节调课（第一部分）' },
+      { title:'医学统计学（调课）', day:1, period:'3-4', weeks:[8], room:'二教 305', teacher:'廖利梅', color:'#7564cf', note:'原第4周周五第1-4节调课（第二部分）' },
       { title:'中国式现代化的理论与实践', day:1, period:'5-6', weeks:[1,2,3,4,5,7,8], room:'二教 303', teacher:'曹银忠', color:'#3cae98' },
       { title:'临床流行病学', day:2, period:'5-6', weeks:[1,2,3,4], room:'二教 308', teacher:'张旭东、吕宇', color:'#de748f' },
       { title:'中国式现代化的理论与实践', day:3, period:'5-6', weeks:[1,2,3,4,5,6], room:'二教 303', teacher:'曹银忠', color:'#3cae98' },
       { title:'医学伦理学', day:4, period:'5-6', weeks:[1,2,3,4,6,7,8,9], room:'二教 308', teacher:'孙明茵、王钧懿', color:'#5d91da' },
+      { title:'医学伦理学（手写作业提交）', day:4, period:'5-6', weeks:[7], room:'随堂提交', teacher:'', color:'#5d91da', note:'婚检HIV告知法律分析；500+字单页' },
+      { title:'医学伦理学（补课）', day:3, period:'9-11', weeks:[7], room:'主楼东 319', teacher:'', color:'#5d91da', timeNote:'9 - 10 节', timeOverride:'19:30 - 21:05', note:'10月14日补课' },
+      { title:'医学伦理学（期末考试）', day:5, period:'5-6', weeks:[9], room:'地点待通知', teacher:'', color:'#5d91da', timeNote:'考试', timeOverride:'14:00 - 15:30', note:'10月30日期末考试' },
       { title:'中国式现代化的理论与实践', day:1, period:'7-8', weeks:[1,2,3,4,5,7], room:'二教 303', teacher:'曹银忠', color:'#3cae98' },
       { title:'临床流行病学', day:2, period:'7-8', weeks:[1,2,3,4], room:'二教 308', teacher:'张旭东、吕宇', color:'#de748f' },
       { title:'医学法律法规', day:4, period:'7-8', weeks:[1,2,3,4,6,7,8,9], room:'二教 308', teacher:'包明晶、熊健', color:'#e5a941' },
@@ -117,9 +122,9 @@
     const weekNo = d => Math.floor((atMidnight(d)-atMidnight(semesterStart))/86400000/7)+1;
     const coursesFor = d => courses.filter(c => c.day === d.getDay() && c.weeks.includes(weekNo(d)));
     const weekText = c => { const runs=[]; c.weeks.forEach(w => { const last=runs[runs.length-1]; if(last && last[1]===w-1) last[1]=w; else runs.push([w,w]); }); return runs.map(([a,b])=>a===b?`第${a}周`:`第${a}-${b}周`).join('、'); };
-    const card = c => `<div class="class-card" style="--card:${c.color};--card-bg:${c.color}18"><div class="title">${c.title}</div><div class="meta">${c.room} · ${c.teacher}</div><div class="meta">${c.timeNote ? c.timeNote+' · ' : ''}${weekText(c)}</div></div>`;
+    const card = c => `<div class="class-card" style="--card:${c.color};--card-bg:${c.color}18"><div class="title">${c.title}</div><div class="meta">${[c.room,c.teacher].filter(Boolean).join(' · ')}</div><div class="meta">${c.timeNote ? c.timeNote+' · ' : ''}${weekText(c)}${c.note ? ' · '+c.note : ''}</div></div>`;
     function renderWeek(){ const start=monday(selected); $('#label').textContent=`${start.getMonth()+1}月${start.getDate()}日 - ${addDays(start,6).getMonth()+1}月${addDays(start,6).getDate()}日`; let html='<div class="schedule-wrap"><div class="week-grid"><div class="corner">节次 / 星期</div>'; for(let i=0;i<7;i++){const d=addDays(start,i), today=iso(d)===iso(new Date()); html+=`<div class="day-head ${today?'today':''}"><b>${weekdayNames[d.getDay()]}</b>${d.getMonth()+1}/${d.getDate()}</div>`;} periods.forEach(p=>{html+=`<div class="time"><b>${p.label}</b>${p.time}</div>`; for(let i=0;i<7;i++){const list=coursesFor(addDays(start,i)).filter(c=>c.period===p.id); html+=`<div class="cell">${list.map(card).join('')||'<div class="empty">无课程</div>'}</div>`;}}); html+='</div></div>'; $('#calendar').innerHTML=html; }
-    function renderDay(){ const list=coursesFor(selected).sort((a,b)=>periods.findIndex(p=>p.id===a.period)-periods.findIndex(p=>p.id===b.period)); $('#label').textContent=`${selected.getFullYear()}年${selected.getMonth()+1}月`; let html=`<div class="day-view"><div class="day-title"><h2>${selected.getMonth()+1}月${selected.getDate()}日 · ${weekdayNames[selected.getDay()]}</h2><span>第 ${weekNo(selected)} 教学周</span></div>`; html+=list.length?'<div class="timeline">'+list.map(c=>{const p=periods.find(x=>x.id===c.period);return `<div class="timeline-item"><div class="timeline-time">${c.timeNote||p.label}<br>${p.time}</div><div class="timeline-card" style="--card:${c.color};--card-bg:${c.color}18"><h3>${c.title}</h3><p>${c.room} · ${c.teacher}</p><p>${weekText(c)}</p></div></div>`}).join('')+'</div>':'<p class="no-class">今天没有已安排课程</p>'; $('#calendar').innerHTML=html+'</div>'; }
+    function renderDay(){ const list=coursesFor(selected).sort((a,b)=>periods.findIndex(p=>p.id===a.period)-periods.findIndex(p=>p.id===b.period)); $('#label').textContent=`${selected.getFullYear()}年${selected.getMonth()+1}月`; let html=`<div class="day-view"><div class="day-title"><h2>${selected.getMonth()+1}月${selected.getDate()}日 · ${weekdayNames[selected.getDay()]}</h2><span>第 ${weekNo(selected)} 教学周</span></div>`; html+=list.length?'<div class="timeline">'+list.map(c=>{const p=periods.find(x=>x.id===c.period);return `<div class="timeline-item"><div class="timeline-time">${c.timeNote||p.label}<br>${c.timeOverride||p.time}</div><div class="timeline-card" style="--card:${c.color};--card-bg:${c.color}18"><h3>${c.title}</h3><p>${[c.room,c.teacher].filter(Boolean).join(' · ')}</p><p>${weekText(c)}${c.note ? ' · '+c.note : ''}</p></div></div>`}).join('')+'</div>':'<p class="no-class">今天没有已安排课程</p>'; $('#calendar').innerHTML=html+'</div>'; }
     function renderMonth(){ const year=selected.getFullYear(), month=selected.getMonth(), first=new Date(year,month,1), start=addDays(first,-first.getDay()), end=new Date(year,month+1,0), total=Math.ceil((end.getDate()+first.getDay())/7)*7; $('#label').textContent=`${year}年${month+1}月`; let html='<div class="month"><div class="month-grid">'+weekdayNames.map(n=>`<div class="month-weekday">${n}</div>`).join(''); for(let i=0;i<total;i++){const d=addDays(start,i), list=coursesFor(d), same=d.getMonth()===month, today=iso(d)===iso(new Date()), picked=iso(d)===iso(selected); html+=`<div class="month-day ${same?'':'other'} ${today?'today':''} ${picked?'selected':''}" data-date="${iso(d)}"><div class="date-number">${d.getDate()}</div>${list.slice(0,3).map(c=>`<div class="month-event" style="--card:${c.color};--card-bg:${c.color}18">${c.title}</div>`).join('')}${list.length>3?`<div class="more">+ ${list.length-3} 门课程</div>`:''}</div>`;} $('#calendar').innerHTML=html+'</div></div>'; document.querySelectorAll('.month-day').forEach(el=>el.onclick=()=>{selected=new Date(el.dataset.date+'T00:00:00');view='day';sync();}); }
     function render(){ $('#weekBadge').textContent=`第 ${weekNo(selected)} 周`; ({day:renderDay,week:renderWeek,month:renderMonth})[view](); }
     function sync(){ $('#datePicker').value=iso(selected); document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view)); render(); }
