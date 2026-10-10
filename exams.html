@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>考试安排 · 2026 秋季</title>
+  <style>
+    :root { --ink:#1c3155; --muted:#6f7e98; --paper:#f6f8fc; --line:#e4eaf3; --blue:#356ae6; --red:#d85b62; --amber:#d79a28; --green:#2e9b78; --shadow:0 16px 40px rgba(41,65,110,.10); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-width:320px; color:var(--ink); background:var(--paper); font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif; }
+    .app { max-width:1120px; margin:0 auto; padding:32px 24px 52px; }
+    .hero { display:flex; align-items:flex-start; justify-content:space-between; gap:22px; margin-bottom:24px; }
+    .eyebrow { color:var(--blue); font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    h1 { margin:8px 0 6px; font-size:clamp(28px,4vw,44px); letter-spacing:-.04em; }
+    .subtitle { margin:0; color:var(--muted); font-size:15px; }
+    .page-links { display:flex; gap:8px; margin-top:16px; }
+    .page-link { display:inline-flex; padding:8px 12px; border:1px solid var(--line); border-radius:10px; color:var(--ink); background:white; text-decoration:none; font-size:13px; font-weight:800; }
+    .page-link.active,.page-link:hover { color:white; border-color:var(--blue); background:var(--blue); }
+    .countdown { min-width:218px; padding:16px 18px; border-radius:18px; color:white; background:linear-gradient(135deg,#356ae6,#6d50d5); box-shadow:var(--shadow); }
+    .countdown small { display:block; opacity:.8; font-size:12px; }
+    .countdown strong { display:block; margin:3px 0 4px; font-size:23px; }
+    .countdown span { font-size:12px; opacity:.9; }
+    .section-title { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:28px 2px 12px; }
+    .section-title h2 { margin:0; font-size:19px; }
+    .section-title span { color:var(--muted); font-size:12px; }
+    .panel { overflow:hidden; border:1px solid var(--line); border-radius:20px; background:white; box-shadow:var(--shadow); }
+    .exam { display:grid; grid-template-columns:116px 1fr auto; gap:18px; padding:20px; border-bottom:1px solid var(--line); }
+    .exam:last-child { border-bottom:0; }
+    .date { padding-top:2px; color:var(--muted); font-size:12px; font-weight:700; }
+    .date b { display:block; color:var(--ink); font-size:18px; margin-bottom:3px; }
+    .exam h3 { margin:0 0 8px; font-size:18px; }
+    .meta { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:8px; }
+    .tag { padding:4px 8px; border-radius:999px; background:#eef3fb; color:#4e668c; font-size:11px; font-weight:800; }
+    .tag.red { background:#fff0f1; color:#b84a53; }
+    .tag.green { background:#eaf8f3; color:#267a61; }
+    .detail { margin:4px 0; color:#536a8e; font-size:13px; line-height:1.65; }
+    .status { align-self:start; padding:7px 10px; border-radius:10px; background:#f2f5fa; color:var(--muted); font-size:12px; font-weight:800; white-space:nowrap; }
+    .status.soon { color:#ad6d00; background:#fff7df; }
+    .status.done { color:#2f8068; background:#eaf8f3; }
+    .related { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .note-card { padding:17px 18px; border:1px solid var(--line); border-radius:16px; background:white; }
+    .note-card b { display:block; margin-bottom:6px; }
+    .note-card p { margin:4px 0; color:#536a8e; font-size:13px; line-height:1.65; }
+    .pending { border-style:dashed; background:#fbfcff; }
+    .footer { margin-top:20px; color:var(--muted); font-size:12px; line-height:1.7; }
+    @media (max-width:720px) {
+      .app { padding:22px 14px 36px; }
+      .hero { flex-direction:column; }
+      .countdown { width:100%; }
+      .exam { grid-template-columns:82px 1fr; gap:12px; }
+      .status { grid-column:2; justify-self:start; }
+      .related { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">2026 · 秋季学期</div>
+        <h1>考试安排</h1>
+        <p class="subtitle">考试、课堂考核与重要提交节点集中记录</p>
+        <nav class="page-links" aria-label="页面导航"><a class="page-link" href="index.html">课程表</a><a class="page-link active" href="exams.html">考试安排</a></nav>
+      </div>
+      <div class="countdown"><small>最近安排</small><strong id="nextTitle">计算中…</strong><span id="nextTime"></span></div>
+    </section>
+
+    <div class="section-title"><h2>已确定考试 / 考核</h2><span>按时间先后排序</span></div>
+    <section class="panel" id="examList"></section>
+
+    <div class="section-title"><h2>相关作业与提交</h2><span>避免漏交</span></div>
+    <section class="related">
+      <article class="note-card">
+        <b>10月15日 · 医学伦理学手写作业</b>
+        <p>课堂上交；婚检 HIV 告知法律分析；500+字，单页。</p>
+      </article>
+      <article class="note-card">
+        <b>10月30日 · 医学伦理学平时作业</b>
+        <p>考试当天现场提交纸质版；案例分析题任选1题；封面注明姓名、学号和专业。</p>
+      </article>
+    </section>
+
+    <div class="section-title"><h2>待确认</h2><span>有新通知后继续补充</span></div>
+    <section class="related">
+      <article class="note-card pending"><b>临床思维</b><p>闭卷考试，120分钟；具体日期、时间、地点待通知。</p></article>
+      <article class="note-card pending"><b>医学论著写作</b><p>目前信息：可能无期末考试，也可能无需提交期末作业；待最终确认。</p></article>
+    </section>
+
+    <p class="footer">本页根据已收到的课程通知整理。若老师后续调整考试时间、地点或形式，以最新正式通知为准。</p>
+  </main>
+  <script>
+    const exams = [
+      { date:'2026-10-13', label:'10月13日', weekday:'周二', time:'下午（具体时间待补充）', title:'流行病学', form:'开卷考试', tags:['简答题','分析题','禁用电子产品'], detail:'过程考核60% + 期末考核40%；重点参考课件讲义及《临床流行病学》第5版。' },
+      { date:'2026-10-14T10:20:00', label:'10月14日', weekday:'周三', time:'10:20–11:50', title:'医学文献检索', form:'堂上开卷笔试', tags:['90分钟','满分100'], detail:'名词解释5题×3分；单选18题×2分；多选5题×3分；简答2题×7分；论述2题×10分。过程考核50%（考勤20%＋课堂互动30%）＋期末50%。' },
+      { date:'2026-10-18T14:00:00', label:'10月18日', weekday:'周日', time:'14:00–16:00', title:'先修课程', form:'考试', tags:['120分钟','第四考场'], detail:'地点：二教306；专业：临床医学专硕；监考教师：李旭玲、唐杰。考试形式暂未注明。' },
+      { date:'2026-10-19', label:'10月19日', weekday:'周一', time:'课堂时间', title:'英语', form:'课堂汇报', tags:['Presentation'], detail:'课堂汇报考核；具体时段及汇报要求待补充。' },
+      { date:'2026-10-29T09:30:00', label:'10月29日', weekday:'周四', time:'09:30–11:30', title:'英语', form:'期末考试', tags:['120分钟','第9周'], detail:'具体考试地点及题型待补充。' },
+      { date:'2026-10-30T14:00:00', label:'10月30日', weekday:'周五', time:'14:00–15:30', title:'医学伦理学', form:'期末考试', tags:['90分钟'], detail:'考试地点待通知；考试当天需现场提交指定纸质版平时作业。' }
+    ];
+    const list = document.getElementById('examList');
+    const now = new Date();
+    function stamp(x){
+      if(x.date.length===10) return new Date(x.date+'T23:59:59');
+      return new Date(x.date);
+    }
+    list.innerHTML = exams.map(x=>{
+      const d=stamp(x), done=d<now;
+      const days=Math.ceil((d-now)/86400000);
+      const cls=done?'done':days<=7?'soon':'';
+      const status=done?'已结束':days===0?'今天':days===1?'明天':days>1?days+'天后':'即将进行';
+      return `<article class="exam"><div class="date"><b>${x.label}</b>${x.weekday}<br>${x.time}</div><div><h3>${x.title} · ${x.form}</h3><div class="meta">${x.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><p class="detail">${x.detail}</p></div><span class="status ${cls}">${status}</span></article>`;
+    }).join('');
+    const next=exams.find(x=>stamp(x)>=now);
+    document.getElementById('nextTitle').textContent=next?next.title+' · '+next.form:'本学期已无已登记考试';
+    document.getElementById('nextTime').textContent=next?next.label+' '+next.time:'';
+  </script>
+</body>
+</html>
