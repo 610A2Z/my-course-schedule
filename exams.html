@@ -71,7 +71,7 @@
       <div>
         <div class="eyebrow">2026 · 秋季学期</div>
         <h1>考试安排</h1>
-        <p class="subtitle">考试、课堂考核与重要提交节点集中记录</p>
+        <p class="subtitle">当前未完成考试、课堂考核与重要提交节点；已完成事项归档保存</p>
         <nav class="page-links" aria-label="页面导航"><a class="page-link" href="index.html">课程表</a><a class="page-link active" href="exams.html">考试安排</a></nav>
       </div>
       <div class="countdown"><small>最近安排</small><strong id="nextTitle">计算中…</strong><span id="nextTime"></span></div>
@@ -90,7 +90,6 @@
 
     <div class="section-title"><h2>待确认</h2><span>有新通知后继续补充</span></div>
     <section class="related">
-      <article class="note-card pending"><b>中国式现代化的理论与实践</b><p>已知题型：简答题4题，每题10分，共40分；论述题2题，每题15分，共30分；另有材料分析题。手写备注显示考试范围到第九章。考试日期、时间、地点及材料分析题分值待确认。</p></article>
       <article class="note-card pending"><b>医学论著写作</b><p>目前信息：可能无期末考试，也可能无需提交期末作业；待最终确认。</p></article>
     </section>
 
@@ -114,12 +113,14 @@
   <script>
     const exams = [
       { date:'2026-10-19T16:20:00', label:'10月19日', weekday:'周一', time:'16:20', title:'英语', form:'课堂汇报', tags:['Presentation','二教301'], detail:'英语课堂汇报；16:20开始。' },
-      { date:'2026-10-21T14:00:00', label:'10月21日', weekday:'周三', time:'14:00–16:00', title:'马克思主义与社会科学方法论', form:'考试', tags:['120分钟','地点见研究生系统'], detail:'具体考试地点以研究生系统通知为准。' },
-      { date:'2026-10-26T18:30:00', label:'10月26日', weekday:'周一', time:'18:30–20:30', title:'循证医学', form:'考试', tags:['120分钟'], detail:'考试地点及具体考试形式待补充。' },
-      { date:'2026-10-28T10:20:00', label:'10月28日', weekday:'周三', time:'10:20–12:20', title:'临床思维', form:'闭卷考试', tags:['120分钟','地点待补充'], detail:'闭卷考试；具体考场待通知。' },
-      { date:'2026-10-29T09:30:00', label:'10月29日', weekday:'周四', time:'09:30–11:30', title:'英语', form:'期末考试', tags:['120分钟','第9周'], detail:'具体考试地点及题型待补充。' },
-      { date:'2026-10-30', label:'10月30日', weekday:'周五', time:'上午（具体时间待补充）', title:'医学统计学', form:'考试', tags:['时间待补充','地点待补充'], detail:'已确认安排在10月30日上午；具体考试时间、地点、时长及考试形式待通知。' },
-      { date:'2026-10-30T14:00:00', label:'10月30日', weekday:'周五', time:'14:00–15:30', title:'医学伦理学', form:'堂上考试', tags:['90分钟','二教205','考场顺序号3','座位36'], detail:'考试当天需现场提交指定纸质版平时作业。' }
+      { date:'2026-10-21T10:30:00', label:'10月21日', weekday:'周三', time:'10:30–12:30', title:'中国式现代化的理论与实践', form:'堂上考试', tags:['120分钟','二教305','考场顺序号3','座位36'], detail:'题型：简答题4题×10分，共40分；论述题2题×15分，共30分；另有材料分析题。考试范围到第九章。' },
+      { date:'2026-10-21T14:00:00', label:'10月21日', weekday:'周三', time:'14:00–16:00', title:'马克思主义与社会科学方法论', form:'堂上考试', tags:['120分钟','二教208','考场顺序号3','座位36'], detail:'考试地点已按研究生系统信息更新。' },
+      { date:'2026-10-26T18:30:00', label:'10月26日', weekday:'周一', time:'18:30–20:30', title:'循证医学', form:'堂上考试', tags:['120分钟','二教306','考场顺序号3','座位39'], detail:'考试信息已按研究生系统更新。' },
+      { date:'2026-10-28T10:20:00', label:'10月28日', weekday:'周三', time:'10:20–12:20', title:'临床思维', form:'堂上闭卷考试', tags:['120分钟','二教305','考场顺序号3','座位36'], detail:'闭卷考试。' },
+      { date:'2026-10-29T09:30:00', label:'10月29日', weekday:'周四', time:'09:30–11:30', title:'硕士研究生英语', form:'堂上考试', tags:['120分钟','二教308','考场顺序号4','座位49'], detail:'考试信息已按研究生系统更新。' },
+      { date:'2026-10-30T10:20:00', label:'10月30日', weekday:'周五', time:'10:20–12:20', title:'医学统计学', form:'堂上考试', tags:['120分钟','二教307','考场顺序号3','座位5'], detail:'考试信息已按研究生系统更新。' },
+      { date:'2026-10-30T14:00:00', label:'10月30日', weekday:'周五', time:'14:00–15:30', title:'医学伦理学', form:'堂上考试', tags:['90分钟','二教205','考场顺序号3','座位36'], detail:'考试当天需现场提交指定纸质版平时作业；考试信息与研究生系统一致。' },
+      { date:'2026-11-02T14:00:00', label:'11月2日', weekday:'周一', time:'14:00–16:00', title:'医学法律法规', form:'堂上考试', tags:['120分钟','二教308','考场顺序号3','座位36'], detail:'考试信息已按研究生系统更新。' }
     ];
     const list = document.getElementById('examList');
     const now = new Date();
