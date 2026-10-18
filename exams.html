@@ -42,6 +42,18 @@
     .note-card b { display:block; margin-bottom:6px; }
     .note-card p { margin:4px 0; color:#536a8e; font-size:13px; line-height:1.65; }
     .pending { border-style:dashed; background:#fbfcff; }
+    .archive-wrap { margin-top:28px; }
+    .archive-box { border:1px solid var(--line); border-radius:18px; background:white; overflow:hidden; }
+    .archive-box summary { cursor:pointer; list-style:none; padding:16px 18px; font-weight:800; color:var(--ink); background:#fbfcff; }
+    .archive-box summary::-webkit-details-marker { display:none; }
+    .archive-box summary::after { content:'展开'; float:right; color:var(--muted); font-size:12px; font-weight:700; }
+    .archive-box[open] summary::after { content:'收起'; }
+    .archive-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0; border-top:1px solid var(--line); }
+    .archive-item { padding:15px 18px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .archive-item:nth-child(even) { border-right:0; }
+    .archive-item b { display:block; margin-bottom:5px; font-size:14px; }
+    .archive-item p { margin:0; color:var(--muted); font-size:12px; line-height:1.6; }
+    @media (max-width:720px) { .archive-list { grid-template-columns:1fr; } .archive-item { border-right:0; } }
     .footer { margin-top:20px; color:var(--muted); font-size:12px; line-height:1.7; }
     @media (max-width:720px) {
       .app { padding:22px 14px 36px; }
@@ -71,10 +83,6 @@
     <div class="section-title"><h2>相关作业与提交</h2><span>避免漏交</span></div>
     <section class="related">
       <article class="note-card">
-        <b>10月15日 · 医学伦理学手写作业</b>
-        <p>课堂上交；婚检 HIV 告知法律分析；500+字，单页。</p>
-      </article>
-      <article class="note-card">
         <b>10月30日 · 医学伦理学平时作业</b>
         <p>考试当天现场提交纸质版；案例分析题任选1题；封面注明姓名、学号和专业。</p>
       </article>
@@ -86,11 +94,25 @@
       <article class="note-card pending"><b>医学论著写作</b><p>目前信息：可能无期末考试，也可能无需提交期末作业；待最终确认。</p></article>
     </section>
 
-    <p class="footer">本页根据已收到的课程通知整理。若老师后续调整考试时间、地点或形式，以最新正式通知为准。</p>
+
+    <div class="archive-wrap">
+      <details class="archive-box">
+        <summary>已完成归档（6项）</summary>
+        <div class="archive-list">
+          <article class="archive-item"><b>10月13日 · 临床流行病学考试</b><p>14:00–16:00，二教107；堂上开卷考试。已完成。</p></article>
+          <article class="archive-item"><b>10月14日 · 医学文献检索考试</b><p>10:20–11:50，二教208；堂上开卷笔试。已完成。</p></article>
+          <article class="archive-item"><b>10月14日 · 医学伦理学补课</b><p>19:30–21:05，主楼东319。已完成。</p></article>
+          <article class="archive-item"><b>10月15日 · 医学伦理学手写作业</b><p>婚检 HIV 告知法律分析，500+字单页。已完成。</p></article>
+          <article class="archive-item"><b>10月18日 · 先修课程考试</b><p>14:00–16:00，二教306，第四考场。已完成。</p></article>
+          <article class="archive-item"><b>入党申请书提交</b><p>已完成；从待办和主课表中移除。</p></article>
+        </div>
+      </details>
+    </div>
+
+    <p class="footer">本页根据已收到的课程通知整理。已完成事项统一归档，不再显示在当前考试大表或主课表中；后续安排以最新正式通知为准。</p>
   </main>
   <script>
     const exams = [
-      { date:'2026-10-18T14:00:00', label:'10月18日', weekday:'周日', time:'14:00–16:00', title:'先修课程', form:'考试', tags:['120分钟','第四考场'], detail:'地点：二教306；专业：临床医学专硕；监考教师：李旭玲、唐杰。考试形式暂未注明。' },
       { date:'2026-10-19T16:20:00', label:'10月19日', weekday:'周一', time:'16:20', title:'英语', form:'课堂汇报', tags:['Presentation','二教301'], detail:'英语课堂汇报；16:20开始。' },
       { date:'2026-10-21T14:00:00', label:'10月21日', weekday:'周三', time:'14:00–16:00', title:'马克思主义与社会科学方法论', form:'考试', tags:['120分钟','地点见研究生系统'], detail:'具体考试地点以研究生系统通知为准。' },
       { date:'2026-10-26T18:30:00', label:'10月26日', weekday:'周一', time:'18:30–20:30', title:'循证医学', form:'考试', tags:['120分钟'], detail:'考试地点及具体考试形式待补充。' },
